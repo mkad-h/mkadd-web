@@ -75,7 +75,7 @@ body::before {
 }
 
 .terminal {
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.9);
     padding: 48px 72px;
     border: 1px solid #0080ff;
     box-shadow: 0 0 20px rgba(0, 128, 255, 0.5),
@@ -84,6 +84,7 @@ body::before {
     animation: flicker 0.15s infinite;
     z-index: 2;
     text-align: center;
+    backdrop-filter: blur(5px);
 }
 
 .links {
@@ -114,12 +115,14 @@ body::before {
     content: "[";
     color: #004080;
     margin-right: 5px;
+    transition: color 0.3s ease;
 }
 
 .links a::after {
     content: "]";
     color: #004080;
     margin-left: 5px;
+    transition: color 0.3s ease;
 }
 
 /* Estilos para los iconos */
@@ -132,7 +135,7 @@ body::before {
     filter: drop-shadow(0 0 2px rgba(0, 128, 255, 0.5));
 }
 
-/* Efecto hover */
+/* Efecto hover mejorado */
 .links a:hover {
     color: #00ffff;
     text-shadow: 0 0 10px #0080ff,
@@ -141,12 +144,16 @@ body::before {
     transform: translateX(10px);
 }
 
-.links li:hover .icon {
-    opacity: 1;
-    transform: translateX(5px);
-    filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.8));
+.links a:hover::before,
+.links a:hover::after {
+    color: #00ffff;
 }
 
+.links li:hover .icon {
+    opacity: 1;
+    transform: translateX(5px) scale(1.1);
+    filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.8));
+}
 
 @keyframes glitch {
     0% { transform: translateX(0); }
@@ -166,8 +173,8 @@ body::before {
     opacity: 0.3;
     animation: glitch 2s infinite;
     z-index: 3;
+    font-family: 'Courier New', monospace;
 }
-
 
 .links li:hover::before {
     content: "█▓▒░";
@@ -176,4 +183,32 @@ body::before {
     color: #0080ff;
     opacity: 0.5;
     animation: glitch 0.3s infinite;
+}
+
+/* Mejoras adicionales para rendimiento */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Soporte para pantallas pequeñas */
+@media (max-width: 768px) {
+    .terminal {
+        padding: 30px 40px;
+    }
+    
+    .links a {
+        font-size: 16px;
+    }
+    
+    .ascii-art {
+        font-size: 8px;
+    }
+}
+
+/* Efecto de cursor personalizado */
+body:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="2" fill="%230080ff"/><circle cx="10" cy="10" r="6" fill="none" stroke="%230080ff" stroke-width="1" opacity="0.5"/></svg>') 10 10, crosshair;
 }
